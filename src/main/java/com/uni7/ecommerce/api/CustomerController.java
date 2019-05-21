@@ -25,4 +25,20 @@ public class CustomerController {
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(customerService.findAll());
     }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> findById(@PathVariable("id") long id) {
+        var customer = customerService.findById(id);
+        if(customer.isPresent()) {
+            return ResponseEntity.ok(customer.get());
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable("id") long id) {
+        customerService.deleteById(id);
+        return ResponseEntity.accepted().build();
+    }
 }
