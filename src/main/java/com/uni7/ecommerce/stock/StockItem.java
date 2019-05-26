@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
-public class ProductStock extends BaseEntity {
+public class StockItem extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
@@ -16,7 +16,13 @@ public class ProductStock extends BaseEntity {
     private int amount;
     private double price;
 
-    public ProductStock() {
+    public StockItem() {
+    }
+
+    public StockItem(Product product, int amount, double price) {
+        this.product = product;
+        this.amount = amount;
+        this.price = price;
     }
 
     public Product getProduct() {

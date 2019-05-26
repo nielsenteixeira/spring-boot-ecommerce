@@ -15,7 +15,7 @@ public class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
@@ -28,7 +28,7 @@ public class BaseEntity {
     public BaseEntity() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

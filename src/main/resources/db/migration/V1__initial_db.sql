@@ -34,17 +34,17 @@ CREATE TABLE order_product (
     order_id integer references "order" (id),
     product_id integer references product (id),
     amount int NOT NULL,
-    price money NOT NULL,
+    price float NOT NULL,
     discount numeric(2) NOT NULL
 );
 
-CREATE TABLE product_stock (
+CREATE TABLE stock_item (
     id SERIAL PRIMARY KEY,
     created_at timestamp with time zone NOT NULL,
     modified_at timestamp with time zone NOT NULL,
     product_id integer references product (id),
     amount int NOT NULL,
-    price money NOT NULL
+    price float NOT NULL
 );
 
 
