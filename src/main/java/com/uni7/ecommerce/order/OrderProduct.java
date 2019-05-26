@@ -14,15 +14,19 @@ public class OrderProduct extends BaseEntity {
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "customer_order_id")
     @JsonIgnore
     Order order;
 
     private int amount;
-    private double price;
-    private double discount;
+    private double totalPrice;
 
     public OrderProduct() {
+    }
+
+    public OrderProduct(Product product, int amount) {
+        this.product = product;
+        this.amount = amount;
     }
 
     public Product getProduct() {
@@ -49,20 +53,11 @@ public class OrderProduct extends BaseEntity {
         this.amount = ammount;
     }
 
-    public double getPrice() {
-        return price;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-
-    public double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

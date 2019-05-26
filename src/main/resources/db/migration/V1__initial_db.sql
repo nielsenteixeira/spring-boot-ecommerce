@@ -19,7 +19,7 @@ CREATE TABLE product (
    description VARCHAR(500) NULL
 );
 
-CREATE TABLE "order" (
+CREATE TABLE customer_order (
     id SERIAL PRIMARY KEY,
     created_at timestamp with time zone NOT NULL,
     modified_at timestamp with time zone NOT NULL,
@@ -31,11 +31,10 @@ CREATE TABLE order_product (
     id SERIAL PRIMARY KEY,
     created_at timestamp with time zone NOT NULL,
     modified_at timestamp with time zone NOT NULL,
-    order_id integer references "order" (id),
+    customer_order_id integer references customer_order (id),
     product_id integer references product (id),
     amount int NOT NULL,
-    price float NOT NULL,
-    discount numeric(2) NOT NULL
+    total_price float NOT NULL
 );
 
 CREATE TABLE stock_item (

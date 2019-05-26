@@ -1,5 +1,6 @@
 package com.uni7.ecommerce.stock;
 
+import com.uni7.ecommerce.product.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -39,4 +40,9 @@ public class StockService {
     public List<StockItem> findAll() {
         return stockItemRepository.findAll();
     }
+
+    public Optional<StockItem> findByProductId(long productId) {
+        return stockItemRepository.findByProductId(productId);
+    }
+
 }
