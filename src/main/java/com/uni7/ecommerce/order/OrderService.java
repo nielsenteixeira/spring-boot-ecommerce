@@ -48,19 +48,26 @@ public class OrderService {
     @Transactional
     public Order createOrder(Customer customer, List<OrderProduct> orderProducts) throws InvalidProductException {
         var order = new Order(Status.OPEN, customer);
+        boolean hasStockAvailable = true;
 
         for(OrderProduct orderProduct: orderProducts) {
             var stockItem = stockService.findByProductId(orderProduct.getProduct().getId());
 
             if(stockItem.isPresent()){
                 if(hasAvailableProductInStock(stockItem.get(),  orderProduct.getAmount())) {
-                    orderProduct.setOrder(order);
-                    orderProduct.setTotalPrice(stockItem.get().getPrice() * orderProduct.getAmount());
                     removeProductFromStock(stockItem.get(), orderProduct.getAmount());
+                } else {
+                    hasStockAvailable = false;
                 }
+                orderProduct.setOrder(order);
+                orderProduct.setTotalPrice(stockItem.get().getPrice() * orderProduct.getAmount());
             } else {
                 throw new InvalidProductException("stock item not found. productId: " + orderProduct.getProduct().getId());
             }
+        }
+
+        if(hasStockAvailable) {
+            order.setStatus(Status.FINALIZED);
         }
 
         order.setOrderProducts(orderProducts);
