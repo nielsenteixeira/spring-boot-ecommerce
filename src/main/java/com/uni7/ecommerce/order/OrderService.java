@@ -47,10 +47,14 @@ public class OrderService {
 
     @Transactional
     public Order createOrder(Customer customer, List<OrderProduct> orderProducts) throws InvalidProductException {
+        var order = new Order(Status.OPEN, customer);
+
         for(OrderProduct orderProduct: orderProducts) {
             var stockItem = stockService.findByProductId(orderProduct.getProduct().getId());
+
             if(stockItem.isPresent()){
                 if(hasAvailableProductInStock(stockItem.get(),  orderProduct.getAmount())) {
+                    orderProduct.setOrder(order);
                     orderProduct.setTotalPrice(stockItem.get().getPrice() * orderProduct.getAmount());
                     removeProductFromStock(stockItem.get(), orderProduct.getAmount());
                 }
@@ -58,8 +62,9 @@ public class OrderService {
                 throw new InvalidProductException("stock item not found. productId: " + orderProduct.getProduct().getId());
             }
         }
-        // save order products before
-        return orderRepository.save(new Order(orderProducts, Status.OPEN, customer));
+
+        order.setOrderProducts(orderProducts);
+        return orderRepository.save(order);
     }
 
     private boolean hasAvailableProductInStock(StockItem stockItem, int amount) {

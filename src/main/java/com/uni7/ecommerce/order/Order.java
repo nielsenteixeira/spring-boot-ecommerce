@@ -31,8 +31,7 @@ public class Order extends BaseEntity {
     public Order() {
     }
 
-    public Order(List<OrderProduct> orderProducts, Status status, Customer customer) {
-        this.orderProducts = orderProducts;
+    public Order(Status status, Customer customer) {
         this.status = status;
         this.customer = customer;
     }
