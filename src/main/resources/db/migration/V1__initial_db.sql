@@ -47,7 +47,7 @@ CREATE TABLE stock_item (
 );
 
 
-CREATE TABLE restock (
+CREATE TABLE stock_request (
     id SERIAL PRIMARY KEY,
     created_at timestamp with time zone NOT NULL,
     modified_at timestamp with time zone NOT NULL,

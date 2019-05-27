@@ -1,5 +1,6 @@
 package com.uni7.ecommerce.stock;
 
+import com.uni7.ecommerce.order.Status;
 import com.uni7.ecommerce.product.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class StockService {
     }
 
     public StockItem save(StockItem stockItem) {
+        saveStockRequest(stockItem);
         return stockItemRepository.save(stockItem);
     }
 
@@ -43,6 +45,11 @@ public class StockService {
 
     public Optional<StockItem> findByProductId(long productId) {
         return stockItemRepository.findByProductId(productId);
+    }
+
+    private StockRequest saveStockRequest(StockItem stockItem) {
+        var stockRequest = new StockRequest(stockItem.getProduct(), stockItem.getAmount(), Status.FINALIZED);
+        return stockRequestRepository.save(stockRequest);
     }
 
 }

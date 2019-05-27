@@ -1,11 +1,13 @@
 package com.uni7.ecommerce.stock;
 
 import com.uni7.ecommerce.data.BaseEntity;
+import com.uni7.ecommerce.order.Status;
 import com.uni7.ecommerce.product.Product;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+
+import static javax.persistence.EnumType.STRING;
 
 @Entity
 public class StockRequest extends BaseEntity {
@@ -15,7 +17,18 @@ public class StockRequest extends BaseEntity {
     private Product product;
     private int amount;
 
+    @Enumerated(STRING)
+    @Column(columnDefinition = "status")
+    @Type(type = "status")
+    private Status status;
+
     public StockRequest() {
+    }
+
+    public StockRequest(Product product, int amount, Status status) {
+        this.product = product;
+        this.amount = amount;
+        this.status = status;
     }
 
     public Product getProduct() {
@@ -32,5 +45,13 @@ public class StockRequest extends BaseEntity {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
