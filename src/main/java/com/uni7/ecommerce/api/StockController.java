@@ -33,6 +33,23 @@ public class StockController {
         return ResponseEntity.ok(new StockItemResponse(inserted));
     }
 
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody StockItemRequest stockItemRequest) {
+        var product = productService.findById(stockItemRequest.getProductId());
+        if(!product.isPresent()) {
+            return ResponseEntity.badRequest().body("inválid productId: " + stockItemRequest.getProductId());
+        }
+
+        var stockItem = stockService.findByProductId(product.get().getId()).get();
+
+        stockItem.setAmount(stockItemRequest.getAmount());
+        stockItem.setPrice(stockItemRequest.getPrice());
+        stockItem.setProduct(product.get());
+
+        var updated = stockService.save(stockItem);
+        return ResponseEntity.ok(new StockItemResponse(updated));
+    }
+
     @GetMapping
     public ResponseEntity<?> findAll() {
         var stockItems = stockService.findAll().stream()

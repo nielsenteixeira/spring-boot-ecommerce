@@ -21,6 +21,13 @@ public class ProductController {
         return ResponseEntity.ok(inserted);
     }
 
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Product product) {
+        var updated = productService.save(product);
+        return ResponseEntity.ok(updated);
+    }
+
+
     @GetMapping
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(productService.findAll());
