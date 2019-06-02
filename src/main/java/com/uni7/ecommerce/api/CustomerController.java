@@ -21,6 +21,12 @@ public class CustomerController {
         return ResponseEntity.ok(inserted);
     }
 
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Customer customer) {
+        var updated = customerService.save(customer);
+        return ResponseEntity.ok(updated);
+    }
+
     @GetMapping
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(customerService.findAll());
